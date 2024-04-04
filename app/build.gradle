@@ -92,7 +92,7 @@ dependencies {
 
     // ConstraintLayout
     implementation("androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion")
-
+    implementation("androidx.palette:palette-ktx:$paletteVersion")
 
     // Network
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
@@ -115,6 +115,7 @@ dependencies {
 
     // Compose Image Loading
     implementation("com.github.skydoves:landscapist-coil:$landscapistVersion")
+    implementation("com.github.skydoves:landscapist-palette:$landscapistVersion")
 
 
     // Logging
