@@ -113,10 +113,12 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:$hiltComposeNavigation")
     //kapt("androidx.hilt:hilt-compiler:$hiltVersion")
 
-    // Compose Image Loading
-    implementation("com.github.skydoves:landscapist-coil:$landscapistVersion")
-    implementation("com.github.skydoves:landscapist-palette:$landscapistVersion")
-
+    // Compose Image Loading with Landscapist
+    implementation("com.github.skydoves:landscapist-bom:$landscapistVersion")
+    implementation("com.github.skydoves:landscapist-coil")
+    implementation("com.github.skydoves:landscapist-palette")
+    implementation("com.github.skydoves:landscapist-placeholder")
+    implementation("com.github.skydoves:landscapist-animation")
 
     // Logging
     implementation("com.jakewharton.timber:timber:$timberVersion")

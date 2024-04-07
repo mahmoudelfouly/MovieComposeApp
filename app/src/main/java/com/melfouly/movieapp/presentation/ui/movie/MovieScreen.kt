@@ -1,8 +1,10 @@
 package com.melfouly.movieapp.presentation.ui.movie
 
 import android.annotation.SuppressLint
+import android.content.res.Resources.Theme
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.drawable.ColorDrawable
 import android.util.Base64
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
@@ -33,11 +35,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat.ThemeCompat
 import androidx.palette.graphics.Palette
 import coil.request.ImageRequest
+import com.kmpalette.color
+import com.kmpalette.onColor
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
 import com.melfouly.movieapp.domain.model.Movie
+import com.melfouly.movieapp.presentation.theme.ReversedColorsList
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.palette.PalettePlugin
@@ -87,8 +93,7 @@ fun MoviePoster(
     ) {
         ConstraintLayout {
             val (box, poster, title) = createRefs()
-            var palette by remember { mutableStateOf<Palette?>(null) }
-//            Timber.d("Palette1: ${palette?.darkVibrantSwatch}")
+            var palette by rememberPaletteState(value = null)
 
             // Poster
             NetworkImage(
@@ -98,7 +103,14 @@ fun MoviePoster(
                     .height(240.dp)
                     .constrainAs(poster) {
                         top.linkTo(parent.top)
+                    },
+                palette = PalettePlugin(
+                    imageModel = ApiHelper.getPosterPath(movie.posterPath),
+                    paletteLoadedListener = {
+                        palette = it
+                        Timber.d("rgb:${it.darkVibrantSwatch?.rgb}")
                     }
+                )
             )
 
             // Title
@@ -119,10 +131,16 @@ fun MoviePoster(
                         .fillMaxSize()
                 )
             }
-
+            val darkVibrantSwatch = palette?.darkVibrantSwatch
+            val textColor = if (darkVibrantSwatch != null && ReversedColorsList.contains(darkVibrantSwatch.color)) {
+                Color(darkVibrantSwatch.titleTextColor)
+            } else {
+                Color.White
+            }
             // Title
             Text(
                 text = movie.title,
+                color = textColor,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 2,
@@ -130,6 +148,7 @@ fun MoviePoster(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .alpha(0.85f)
                     .constrainAs(title) {
                         top.linkTo(box.top)
                         bottom.linkTo(box.bottom)
