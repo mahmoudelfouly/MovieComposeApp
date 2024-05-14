@@ -1,4 +1,4 @@
-package com.melfouly.movieapp.presentation.theme
+package com.melfouly.movieapp.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
