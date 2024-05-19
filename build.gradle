@@ -1,8 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    dependencies {
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.8.0-alpha08"
+    }
+}
+
 plugins {
     id 'com.android.application' version '8.1.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.10' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.10' apply false
+    id 'com.google.dagger.hilt.android' version '2.48' apply false
 }
 
 ext {
@@ -14,8 +21,9 @@ ext {
     okhttpVersion = "4.12.0"
     coroutinesVersion = "1.8.0"
     roomVersion = "2.6.1"
-    hiltCoreVersion = "2.44"
+    hiltCoreVersion = "2.48"
     hiltComposeNavigation = "1.2.0"
+    navVersion = "2.8.0-alpha08"
     hiltVersion = "1.0.0"
     landscapistVersion = "2.3.2"
     timberVersion = "5.0.1"
