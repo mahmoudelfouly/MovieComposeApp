@@ -12,7 +12,9 @@ import com.melfouly.movieapp.presentation.composable.BottomNavigationBar
 import com.melfouly.movieapp.presentation.composable.MainTopBar
 import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import com.melfouly.movieapp.presentation.navigation.MainTabStateHolder
+import com.melfouly.movieapp.presentation.ui.actor.ActorsScreen
 import com.melfouly.movieapp.presentation.ui.movie.MoviesScreen
+import com.melfouly.movieapp.presentation.ui.series.SeriesScreen
 import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 
 @Composable
@@ -47,7 +49,10 @@ fun MainTabScreen(
                 )
 
                 HomeNavigationTab.SERIES -> SeriesScreen()
-                HomeNavigationTab.ACTORS -> ActorsScreen()
+                HomeNavigationTab.ACTORS -> ActorsScreen(
+                    viewModel,
+                    tabStateHolder.actorsLazyGridState
+                )
             }
         }
     }

@@ -14,8 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -26,26 +24,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.melfouly.movieapp.data.network.ApiHelper
-import com.melfouly.movieapp.domain.model.Movie
-import com.skydoves.landscapist.palette.PalettePlugin
-import com.skydoves.landscapist.palette.rememberPaletteState
-import timber.log.Timber
+import com.melfouly.movieapp.domain.model.Actor
 
 @Composable
-fun Poster(
-    movie: Movie,
+fun ActorPoster(
+    actor: Actor,
     modifier: Modifier = Modifier
 ) {
-    var palette by rememberPaletteState(value = null)
-    val borderColor = if (palette?.darkVibrantSwatch?.rgb == null) Color.Black else Color(
-        palette?.darkVibrantSwatch?.rgb!!
-    )
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .height(290.dp)
             .border(
-                border = BorderStroke(width = 1.dp, borderColor),
+                border = BorderStroke(width = 1.dp, Color.Black),
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable { },
@@ -56,7 +47,7 @@ fun Poster(
 
             // Poster
             NetworkImage(
-                networkUrl = ApiHelper.getPosterPath(movie.posterPath),
+                networkUrl = ApiHelper.getPosterPath(actor.profilePath),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(240.dp)
@@ -64,14 +55,7 @@ fun Poster(
                     .clip(CutCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
                     .constrainAs(poster) {
                         top.linkTo(parent.top)
-                    },
-                palette = PalettePlugin(
-                    imageModel = ApiHelper.getPosterPath(movie.posterPath),
-                    paletteLoadedListener = {
-                        palette = it
-                        Timber.d("rgb:${it.darkVibrantSwatch?.rgb}")
                     }
-                )
             )
 
             Box(
@@ -87,7 +71,7 @@ fun Poster(
             )
 
             Text(
-                text = movie.title,
+                text = actor.name,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
