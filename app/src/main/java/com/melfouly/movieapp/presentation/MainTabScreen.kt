@@ -48,7 +48,10 @@ fun MainTabScreen(
                     tabStateHolder.moviesLazyGridState
                 )
 
-                HomeNavigationTab.SERIES -> SeriesScreen()
+                HomeNavigationTab.SERIES -> SeriesScreen(
+                    viewModel,
+                    tabStateHolder.seriesLazyGridState
+                )
                 HomeNavigationTab.ACTORS -> ActorsScreen(
                     viewModel,
                     tabStateHolder.actorsLazyGridState

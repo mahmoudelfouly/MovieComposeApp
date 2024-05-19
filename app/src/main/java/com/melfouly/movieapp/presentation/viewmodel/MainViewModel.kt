@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.melfouly.movieapp.domain.model.ActorsResponse
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
+import com.melfouly.movieapp.domain.model.DiscoverSeriesResponse
 import com.melfouly.movieapp.domain.model.NetworkResult
 import com.melfouly.movieapp.domain.usecase.GetActorsUseCase
 import com.melfouly.movieapp.domain.usecase.GetMoviesUseCase
+import com.melfouly.movieapp.domain.usecase.GetSeriesUseCase
 import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
+    private val getSeriesUseCase: GetSeriesUseCase,
     private val getActorsUseCase: GetActorsUseCase
 ): ViewModel() {
 
@@ -30,18 +33,27 @@ class MainViewModel @Inject constructor(
         MutableStateFlow<NetworkResult<DiscoverMoviesResponse>>(NetworkResult.Loading)
     val moviesList: StateFlow<NetworkResult<DiscoverMoviesResponse>> = _moviesList.asStateFlow()
 
+    private val _seriesList =
+        MutableStateFlow<NetworkResult<DiscoverSeriesResponse>>(NetworkResult.Loading)
+    val seriesList: StateFlow<NetworkResult<DiscoverSeriesResponse>> = _seriesList.asStateFlow()
+
     private val _actorsList =
         MutableStateFlow<NetworkResult<ActorsResponse>>(NetworkResult.Loading)
     val actorsList: StateFlow<NetworkResult<ActorsResponse>> = _actorsList.asStateFlow()
 
     init {
         getMovies(1)
-
     }
 
     fun getMovies(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _moviesList.emit(getMoviesUseCase(page))
+        }
+    }
+
+    fun getSeries(page: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _seriesList.emit(getSeriesUseCase(page))
         }
     }
 

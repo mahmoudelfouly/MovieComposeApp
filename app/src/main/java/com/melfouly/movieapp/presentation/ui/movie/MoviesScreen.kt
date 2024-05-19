@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
 import com.melfouly.movieapp.domain.model.NetworkResult
-import com.melfouly.movieapp.presentation.composable.Poster
+import com.melfouly.movieapp.presentation.composable.MoviePoster
 import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 
 @Composable
@@ -51,7 +51,7 @@ fun MoviesScreen(
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
                 items((moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results.size) {
-                    Poster(movie = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results[it])
+                    MoviePoster(movie = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results[it])
                 }
             }
         }

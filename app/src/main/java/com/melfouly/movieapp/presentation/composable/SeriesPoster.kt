@@ -26,14 +26,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.melfouly.movieapp.data.network.ApiHelper
-import com.melfouly.movieapp.domain.model.Movie
+import com.melfouly.movieapp.domain.model.Series
 import com.skydoves.landscapist.palette.PalettePlugin
 import com.skydoves.landscapist.palette.rememberPaletteState
 import timber.log.Timber
 
 @Composable
-fun Poster(
-    movie: Movie,
+fun SeriesPoster(
+    series: Series,
     modifier: Modifier = Modifier
 ) {
     var palette by rememberPaletteState(value = null)
@@ -56,7 +56,7 @@ fun Poster(
 
             // Poster
             NetworkImage(
-                networkUrl = ApiHelper.getPosterPath(movie.posterPath),
+                networkUrl = ApiHelper.getPosterPath(series.posterPath),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(240.dp)
@@ -66,7 +66,7 @@ fun Poster(
                         top.linkTo(parent.top)
                     },
                 palette = PalettePlugin(
-                    imageModel = ApiHelper.getPosterPath(movie.posterPath),
+                    imageModel = ApiHelper.getPosterPath(series.posterPath),
                     paletteLoadedListener = {
                         palette = it
                         Timber.d("rgb:${it.darkVibrantSwatch?.rgb}")
@@ -87,7 +87,7 @@ fun Poster(
             )
 
             Text(
-                text = movie.title,
+                text = series.originalName,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
