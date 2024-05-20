@@ -21,11 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.melfouly.movieapp.domain.model.ActorsResponse
 import com.melfouly.movieapp.domain.model.NetworkResult
 import com.melfouly.movieapp.presentation.composable.ActorPoster
+import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 
 @Composable
 fun ActorsScreen(
     viewModel: MainViewModel,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit,
     lazyGridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -52,7 +54,10 @@ fun ActorsScreen(
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
                 items((actorsResponse as NetworkResult.Success<ActorsResponse>).data.results.size) {
-                    ActorPoster(actor = (actorsResponse as NetworkResult.Success<ActorsResponse>).data.results[it])
+                    ActorPoster(
+                        actor = (actorsResponse as NetworkResult.Success<ActorsResponse>).data.results[it],
+                        onNavigateToDetails = onNavigateToDetails
+                    )
                 }
             }
         }

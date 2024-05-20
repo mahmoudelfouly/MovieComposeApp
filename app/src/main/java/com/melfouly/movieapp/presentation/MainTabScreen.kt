@@ -31,6 +31,7 @@ import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 fun MainTabScreen(
     viewModel: MainViewModel,
     tabStateHolder: MainTabStateHolder,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit
 ) {
 
     val selectedTab by viewModel.selectedTab.collectAsState()
@@ -72,6 +73,7 @@ fun MainTabScreen(
 
                 HomeNavigationTab.ACTORS -> ActorsScreen(
                     viewModel,
+                    onNavigateToDetails,
                     tabStateHolder.actorsLazyGridState
                 )
             }

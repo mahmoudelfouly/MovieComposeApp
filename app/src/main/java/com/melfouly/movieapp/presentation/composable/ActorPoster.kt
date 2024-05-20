@@ -25,10 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.Actor
+import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 
 @Composable
 fun ActorPoster(
     actor: Actor,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -39,7 +41,7 @@ fun ActorPoster(
                 border = BorderStroke(width = 1.dp, Color.Black),
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable { },
+            .clickable { onNavigateToDetails(HomeNavigationTab.ACTORS, actor.id) },
         color = MaterialTheme.colorScheme.background
     ) {
         ConstraintLayout {
