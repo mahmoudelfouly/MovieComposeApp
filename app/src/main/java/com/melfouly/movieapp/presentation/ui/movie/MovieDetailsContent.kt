@@ -3,9 +3,12 @@ package com.melfouly.movieapp.presentation.ui.movie
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.Movie
+import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
+import com.melfouly.movieapp.presentation.composable.Overview
 import com.melfouly.movieapp.presentation.composable.RateBar
-import timber.log.Timber
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieDetailsContent(
     movieDetails: Movie,
@@ -31,6 +36,7 @@ fun MovieDetailsContent(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         Box(modifier = modifier.fillMaxWidth()) {
             NetworkImage(networkUrl = ApiHelper.getPosterPath(movieDetails.posterPath))
@@ -65,6 +71,20 @@ fun MovieDetailsContent(
                     rate = avgRate,
                     modifier = modifier.align(Alignment.CenterHorizontally)
                 )
+            }
+
+            movieDetails.keywords?.let { list ->
+                FlowRow(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
+                ) {
+                    list.forEach { keyword ->
+                        KeywordCard(name = keyword.name)
+                    }
+                }
+            }
+
+            movieDetails.overview?.let {
+                Overview(title = "Overview", desc = it)
             }
 
 

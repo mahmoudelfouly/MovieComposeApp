@@ -4,6 +4,8 @@ import com.melfouly.movieapp.domain.model.ActorDetails
 import com.melfouly.movieapp.domain.model.ActorsResponse
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
 import com.melfouly.movieapp.domain.model.DiscoverSeriesResponse
+import com.melfouly.movieapp.domain.model.Keyword
+import com.melfouly.movieapp.domain.model.Keywords
 import com.melfouly.movieapp.domain.model.Movie
 import retrofit2.Response
 import retrofit2.http.GET
@@ -17,6 +19,9 @@ interface ApiService {
 
     @GET("movie/{movie_id}?language=en-US")
     suspend fun getMovieDetails(@Path("movie_id") id: Long): Response<Movie>
+
+    @GET("movie/{movie_id}/keywords")
+    suspend fun getMovieKeywords(@Path("movie_id") id: Long): Response<Keywords>
 
     @GET("discover/tv?language=en-US&sort_by=popularity.desc")
     suspend fun getSeries(@Query("page") page: Int): Response<DiscoverSeriesResponse>

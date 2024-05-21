@@ -10,7 +10,7 @@ data class Movie(
     @SerializedName("poster_path")
     val posterPath: String?,
     val adult: Boolean,
-    val overview: String,
+    val overview: String?,
     @SerializedName("release_date")
     val releaseDate: String?,
     @SerializedName("genre_ids")

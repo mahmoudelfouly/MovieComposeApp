@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.ActorDetails
+import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
+import com.melfouly.movieapp.presentation.composable.Overview
 
 @Composable
 fun ActorDetailsContent(
@@ -79,33 +80,12 @@ fun ActorDetailsContent(
                 contentPadding = PaddingValues(horizontal = 4.dp)
             ) {
                 actorDetails.alsoKnownAs?.size?.let {
-                    items(it) {
-                        Card(
-                            modifier = Modifier.padding(2.dp),
-                            elevation = CardDefaults.elevatedCardElevation(2.dp),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(4.dp),
-                                text = actorDetails.alsoKnownAs[it],
-                                color = Color.Black,
-                            )
-                        }
+                    items(it) { index ->
+                        KeywordCard(name = actorDetails.alsoKnownAs[index])
                     }
                 }
             }
-            Text(
-                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                text = "Biography:",
-                color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Normal,
-            )
-            Text(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
-                text = actorDetails.biography,
-                color = Color.Black,
-            )
+            Overview(title = "Biography", desc = actorDetails.biography)
         }
     }
 }
