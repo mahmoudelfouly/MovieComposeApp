@@ -63,6 +63,7 @@ fun MainTabScreen(
             when (destination) {
                 HomeNavigationTab.MOVIES -> MoviesScreen(
                     viewModel,
+                    onNavigateToDetails,
                     tabStateHolder.moviesLazyGridState
                 )
 

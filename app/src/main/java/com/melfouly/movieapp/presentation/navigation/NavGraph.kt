@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import com.melfouly.movieapp.presentation.MainTabScreen
 import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab.*
 import com.melfouly.movieapp.presentation.ui.actor.ActorDetailsScreen
+import com.melfouly.movieapp.presentation.ui.movie.MovieDetailsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, tabStateHolder: MainTabStateHolder) {
@@ -21,12 +22,17 @@ fun NavGraph(navController: NavHostController, tabStateHolder: MainTabStateHolde
                 tabStateHolder = tabStateHolder,
                 onNavigateToDetails = { tab, id ->
                     when(tab) {
-                        MOVIES -> null
+                        MOVIES -> navController.navigate(MovieDetailsScreenRoute(id))
                         SERIES -> null
                         ACTORS -> navController.navigate(ActorDetailsScreenRoute(id))
                     }
                 }
             )
+        }
+
+        composable<MovieDetailsScreenRoute> { backStackEntry ->
+            val route: MovieDetailsScreenRoute = backStackEntry.toRoute()
+            MovieDetailsScreen(viewModel = hiltViewModel() , route.id)
         }
 
         composable<ActorDetailsScreenRoute> { backStackEntry ->

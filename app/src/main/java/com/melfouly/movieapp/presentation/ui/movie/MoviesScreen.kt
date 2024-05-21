@@ -21,11 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
 import com.melfouly.movieapp.domain.model.NetworkResult
 import com.melfouly.movieapp.presentation.composable.MoviePoster
+import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 
 @Composable
 fun MoviesScreen(
     viewModel: MainViewModel,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit,
     lazyGridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -51,7 +53,10 @@ fun MoviesScreen(
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
                 items((moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results.size) {
-                    MoviePoster(movie = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results[it])
+                    MoviePoster(
+                        movie = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results[it],
+                        onNavigateToDetails
+                    )
                 }
             }
         }

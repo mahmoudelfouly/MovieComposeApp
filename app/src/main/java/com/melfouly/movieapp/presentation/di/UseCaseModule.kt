@@ -5,6 +5,7 @@ import com.melfouly.movieapp.domain.repo.MoviesRepo
 import com.melfouly.movieapp.domain.repo.SeriesRepo
 import com.melfouly.movieapp.domain.usecase.GetActorDetailsUseCase
 import com.melfouly.movieapp.domain.usecase.GetActorsUseCase
+import com.melfouly.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.melfouly.movieapp.domain.usecase.GetMoviesUseCase
 import com.melfouly.movieapp.domain.usecase.GetSeriesUseCase
 import dagger.Module
@@ -20,6 +21,11 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun provideMoviesUseCase(repo: MoviesRepo): GetMoviesUseCase = GetMoviesUseCase(repo)
+
+    @Singleton
+    @Provides
+    fun provideMovieDetailsUseCase(repo: MoviesRepo): GetMovieDetailsUseCase =
+        GetMovieDetailsUseCase(repo)
 
     @Singleton
     @Provides

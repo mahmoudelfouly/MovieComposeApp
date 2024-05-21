@@ -28,5 +28,5 @@ data class Movie(
     val voteCount: Int,
     val video: Boolean,
     @SerializedName("vote_average")
-    val voteAverage: Float
+    val voteAverage: Float?
 )

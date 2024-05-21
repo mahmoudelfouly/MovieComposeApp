@@ -6,13 +6,7 @@ import kotlinx.serialization.Serializable
 object MoviesScreenRoute
 
 @Serializable
-object SeriesScreenRoute
-
-@Serializable
-object ActorsScreenRoute
+data class MovieDetailsScreenRoute(val id: Long)
 
 @Serializable
 data class ActorDetailsScreenRoute(val id: Long)
-
-@Serializable
-data class MovieDetailsRoute(val id: Int)
