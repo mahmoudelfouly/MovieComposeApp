@@ -49,6 +49,7 @@ class MainViewModel @Inject constructor(
     init {
         getMovies(moviesPage)
         getSeries(seriesPage)
+        getActors(actorsPage)
     }
 
     private fun getMovies(page: Int) {
@@ -97,9 +98,26 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getActors(page: Int) {
+    private fun getActors(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _actorsList.emit(getActorsUseCase(page))
+            isLoading = true
+            val result = getActorsUseCase(page)
+            isLoading = false
+            if (result is NetworkResult.Success) {
+                val currentList =
+                    (_actorsList.value as? NetworkResult.Success)?.data?.results ?: arrayListOf()
+                currentList.addAll(result.data.results)
+                _actorsList.emit(NetworkResult.Success(result.data.copy(results = currentList)))
+            } else {
+                _actorsList.emit(result)
+            }
+        }
+    }
+
+    fun getNextActorsPage() {
+        if (!isLoading) {
+            actorsPage += 1
+            getActors(actorsPage)
         }
     }
 

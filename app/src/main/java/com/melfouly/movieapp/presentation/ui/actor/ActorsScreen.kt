@@ -32,7 +32,6 @@ fun ActorsScreen(
     modifier: Modifier = Modifier
 ) {
 
-    viewModel.getActors(1)
     val actorsResponse by viewModel.actorsList.collectAsState()
 
     when (actorsResponse) {
@@ -45,6 +44,9 @@ fun ActorsScreen(
         }
 
         is NetworkResult.Success -> {
+
+            val actors = (actorsResponse as NetworkResult.Success<ActorsResponse>).data
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = modifier.fillMaxSize(),
@@ -53,9 +55,14 @@ fun ActorsScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
-                items((actorsResponse as NetworkResult.Success<ActorsResponse>).data.results.size) {
+                items(actors.results.size) { index ->
+
+                    if (index == (actors.results.size - 1)) {
+                        viewModel.getNextActorsPage()
+                    }
+
                     ActorPoster(
-                        actor = (actorsResponse as NetworkResult.Success<ActorsResponse>).data.results[it],
+                        actor = actors.results[index],
                         onNavigateToDetails = onNavigateToDetails
                     )
                 }
