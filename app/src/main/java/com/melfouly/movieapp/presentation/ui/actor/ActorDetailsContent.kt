@@ -25,6 +25,7 @@ import com.melfouly.movieapp.presentation.composable.BackButton
 import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
 import com.melfouly.movieapp.presentation.composable.Overview
+import com.melfouly.movieapp.presentation.composable.SmallPoster
 
 @Composable
 fun ActorDetailsContent(
@@ -71,6 +72,24 @@ fun ActorDetailsContent(
                 }
             }
             Overview(title = "Biography", desc = actorDetails.biography)
+
+            Text(
+                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                text = "Known For:",
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+
+            LazyRow(
+                modifier = Modifier.padding(top = 2.dp, bottom = 12.dp, start = 8.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                contentPadding = PaddingValues(4.dp)
+            ) {
+                items(actorDetails.knownFor.size) { index ->
+                    SmallPoster(movie = actorDetails.knownFor[index])
+                }
+            }
         }
 
 

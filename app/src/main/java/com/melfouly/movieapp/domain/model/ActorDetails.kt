@@ -13,5 +13,6 @@ data class ActorDetails(
     val placeOfBirth: String?,
     @SerializedName("also_known_as")
     val alsoKnownAs: List<String>?,
-    val biography: String
+    val biography: String,
+    var knownFor: ArrayList<Movie>
 )

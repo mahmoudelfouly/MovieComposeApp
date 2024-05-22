@@ -2,6 +2,7 @@ package com.melfouly.movieapp.data.network
 
 import com.melfouly.movieapp.domain.model.ActorDetails
 import com.melfouly.movieapp.domain.model.ActorsResponse
+import com.melfouly.movieapp.domain.model.CombinedCredits
 import com.melfouly.movieapp.domain.model.DiscoverMoviesResponse
 import com.melfouly.movieapp.domain.model.DiscoverSeriesResponse
 import com.melfouly.movieapp.domain.model.Keywords
@@ -49,4 +50,7 @@ interface ApiService {
 
     @GET("person/{person_id}?language=en-US")
     suspend fun getActorDetails(@Path("person_id") id: Long): Response<ActorDetails>
+
+    @GET("person/{person_id}/combined_credits")
+    suspend fun getActorCombinedCredits(@Path("person_id") id: Long): Response<CombinedCredits>
 }
