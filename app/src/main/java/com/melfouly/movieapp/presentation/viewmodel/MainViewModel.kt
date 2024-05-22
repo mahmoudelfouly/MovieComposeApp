@@ -24,7 +24,7 @@ class MainViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getSeriesUseCase: GetSeriesUseCase,
     private val getActorsUseCase: GetActorsUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _selectedTab = MutableStateFlow(HomeNavigationTab.MOVIES)
     val selectedTab: StateFlow<HomeNavigationTab> = _selectedTab.asStateFlow()
@@ -41,19 +41,59 @@ class MainViewModel @Inject constructor(
         MutableStateFlow<NetworkResult<ActorsResponse>>(NetworkResult.Loading)
     val actorsList: StateFlow<NetworkResult<ActorsResponse>> = _actorsList.asStateFlow()
 
+    private var moviesPage = 1
+    private var seriesPage = 1
+    private var actorsPage = 1
+    private var isLoading = false
+
     init {
-        getMovies(1)
+        getMovies(moviesPage)
+        getSeries(seriesPage)
     }
 
-    fun getMovies(page: Int) {
+    private fun getMovies(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _moviesList.emit(getMoviesUseCase(page))
+            isLoading = true
+            val result = getMoviesUseCase(page)
+            isLoading = false
+            if (result is NetworkResult.Success) {
+                val currentList =
+                    (_moviesList.value as? NetworkResult.Success)?.data?.results ?: arrayListOf()
+                currentList.addAll(result.data.results)
+                _moviesList.emit(NetworkResult.Success(result.data.copy(results = currentList)))
+            } else {
+                _moviesList.emit(result)
+            }
         }
     }
 
-    fun getSeries(page: Int) {
+    fun getNextMoviesPage() {
+        if (!isLoading) {
+            moviesPage += 1
+            getMovies(moviesPage)
+        }
+    }
+
+    private fun getSeries(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _seriesList.emit(getSeriesUseCase(page))
+            isLoading = true
+            val result = getSeriesUseCase(page)
+            isLoading = false
+            if (result is NetworkResult.Success) {
+                val currentList =
+                    (_seriesList.value as? NetworkResult.Success)?.data?.results ?: arrayListOf()
+                currentList.addAll(result.data.results)
+                _seriesList.emit(NetworkResult.Success(result.data.copy(results = currentList)))
+            } else {
+                _seriesList.emit(result)
+            }
+        }
+    }
+
+    fun getNextSeriesPage() {
+        if (!isLoading) {
+            seriesPage += 1
+            getSeries(seriesPage)
         }
     }
 

@@ -44,6 +44,9 @@ fun MoviesScreen(
         }
 
         is NetworkResult.Success -> {
+
+            val movies = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = modifier.fillMaxSize(),
@@ -52,9 +55,14 @@ fun MoviesScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
-                items((moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results.size) {
+                items(movies.results.size) { index ->
+
+                    if (index == (movies.results.size - 1)) {
+                        viewModel.getNextMoviesPage()
+                    }
+
                     MoviePoster(
-                        movie = (moviesResponse as NetworkResult.Success<DiscoverMoviesResponse>).data.results[it],
+                        movie = movies.results[index],
                         onNavigateToDetails
                     )
                 }

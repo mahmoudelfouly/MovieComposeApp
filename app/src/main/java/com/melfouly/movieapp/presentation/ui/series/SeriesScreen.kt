@@ -32,7 +32,6 @@ fun SeriesScreen(
     modifier: Modifier = Modifier
 ) {
 
-    viewModel.getSeries(1)
     val seriesResponse by viewModel.seriesList.collectAsState()
 
     when (seriesResponse) {
@@ -45,6 +44,9 @@ fun SeriesScreen(
         }
 
         is NetworkResult.Success -> {
+
+            val series = (seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = modifier.fillMaxSize(),
@@ -53,9 +55,14 @@ fun SeriesScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
-                items((seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data.results.size) {
+                items(series.results.size) { index ->
+
+                    if (index == (series.results.size - 1)) {
+                        viewModel.getNextSeriesPage()
+                    }
+
                     SeriesPoster(
-                        series = (seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data.results[it],
+                        series = series.results[index],
                         onNavigateToDetails
                     )
                 }
