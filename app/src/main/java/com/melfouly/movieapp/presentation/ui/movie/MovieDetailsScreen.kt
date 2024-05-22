@@ -13,22 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import com.melfouly.movieapp.domain.model.ActorDetails
 import com.melfouly.movieapp.domain.model.Movie
 import com.melfouly.movieapp.domain.model.NetworkResult
-import com.melfouly.movieapp.presentation.ui.actor.ActorDetailsContent
+import com.melfouly.movieapp.presentation.composable.BackButton
 import com.melfouly.movieapp.presentation.viewmodel.MovieDetailsViewModel
 
 @Composable
 fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel,
-    id: Long
+    id: Long,
+    onBackPressed: (Boolean) -> Unit
 ) {
 
     viewModel.getMovieDetails(id)
     val movieDetails by viewModel.movieDetails.collectAsState()
 
-    when(movieDetails) {
+    when (movieDetails) {
         is NetworkResult.Loading -> {
             Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(
@@ -42,7 +42,8 @@ fun MovieDetailsScreen(
             val scrollState = rememberScrollState()
             MovieDetailsContent(
                 movieDetails = (movieDetails as NetworkResult.Success<Movie>).data,
-                scrollState = scrollState
+                scrollState = scrollState,
+                onBackPressed = onBackPressed
             )
         }
 
@@ -55,6 +56,8 @@ fun MovieDetailsScreen(
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
+                BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed)
             }
         }
     }

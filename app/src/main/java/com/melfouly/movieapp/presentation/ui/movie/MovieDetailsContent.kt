@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.Movie
+import com.melfouly.movieapp.presentation.composable.BackButton
 import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
 import com.melfouly.movieapp.presentation.composable.Overview
@@ -31,63 +32,68 @@ import com.melfouly.movieapp.presentation.composable.RateBar
 fun MovieDetailsContent(
     movieDetails: Movie,
     scrollState: ScrollState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackPressed: (Boolean) -> Unit
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
-        Box(modifier = modifier.fillMaxWidth()) {
-            NetworkImage(networkUrl = ApiHelper.getPosterPath(movieDetails.posterPath))
-        }
-        Text(
-            modifier = modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 8.dp),
-            text = movieDetails.title,
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-
-        movieDetails.releaseDate?.let { date ->
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+        ) {
+            Box(modifier = modifier.fillMaxWidth()) {
+                NetworkImage(networkUrl = ApiHelper.getPosterPath(movieDetails.posterPath))
+            }
             Text(
                 modifier = modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(2.dp),
-                text = "Release Date: $date",
-                style = MaterialTheme.typography.bodyMedium,
+                    .padding(top = 8.dp),
+                text = movieDetails.title,
+                style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
 
-            movieDetails.voteAverage?.let { avgRate ->
-                RateBar(
-                    rate = avgRate,
-                    modifier = modifier.align(Alignment.CenterHorizontally)
+            movieDetails.releaseDate?.let { date ->
+                Text(
+                    modifier = modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(2.dp),
+                    text = "Release Date: $date",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
                 )
-            }
 
-            movieDetails.keywords?.let { list ->
-                FlowRow(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
-                ) {
-                    list.forEach { keyword ->
-                        KeywordCard(name = keyword.name)
+                movieDetails.voteAverage?.let { avgRate ->
+                    RateBar(
+                        rate = avgRate,
+                        modifier = modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+
+                movieDetails.keywords?.let { list ->
+                    FlowRow(
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
+                    ) {
+                        list.forEach { keyword ->
+                            KeywordCard(name = keyword.name)
+                        }
                     }
                 }
+
+                movieDetails.overview?.let {
+                    Overview(title = "Overview", desc = it)
+                }
+
+
             }
-
-            movieDetails.overview?.let {
-                Overview(title = "Overview", desc = it)
-            }
-
-
         }
+
+        BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed)
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.ActorDetails
+import com.melfouly.movieapp.presentation.composable.BackButton
 import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
 import com.melfouly.movieapp.presentation.composable.Overview
@@ -33,7 +34,8 @@ import com.melfouly.movieapp.presentation.composable.Overview
 @Composable
 fun ActorDetailsContent(
     actorDetails: ActorDetails,
-    scrollState: ScrollState
+    scrollState: ScrollState,
+    onBackPressed: (Boolean) -> Unit
 ) {
     Box(Modifier.fillMaxSize()) {
         NetworkImage(
@@ -87,5 +89,7 @@ fun ActorDetailsContent(
             }
             Overview(title = "Biography", desc = actorDetails.biography)
         }
+
+        BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed = onBackPressed)
     }
 }

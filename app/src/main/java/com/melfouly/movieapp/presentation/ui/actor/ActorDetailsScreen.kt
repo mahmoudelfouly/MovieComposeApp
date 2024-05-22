@@ -15,12 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.melfouly.movieapp.domain.model.ActorDetails
 import com.melfouly.movieapp.domain.model.NetworkResult
+import com.melfouly.movieapp.presentation.composable.BackButton
 import com.melfouly.movieapp.presentation.viewmodel.ActorDetailsViewModel
 
 @Composable
 fun ActorDetailsScreen(
     viewModel: ActorDetailsViewModel,
-    id: Long
+    id: Long,
+    onBackPressed: (Boolean) -> Unit
 ) {
 
     viewModel.getActorDetails(id)
@@ -41,7 +43,8 @@ fun ActorDetailsScreen(
 
             ActorDetailsContent(
                 actorDetails = (actorDetails as NetworkResult.Success<ActorDetails>).data,
-                scrollState = scrollState
+                scrollState = scrollState,
+                onBackPressed = onBackPressed
             )
         }
 
@@ -54,6 +57,8 @@ fun ActorDetailsScreen(
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
+                BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed)
             }
         }
     }
