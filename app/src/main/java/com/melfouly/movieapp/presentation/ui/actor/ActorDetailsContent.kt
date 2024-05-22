@@ -1,20 +1,15 @@
 package com.melfouly.movieapp.presentation.ui.actor
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,27 +33,15 @@ fun ActorDetailsContent(
     onBackPressed: (Boolean) -> Unit
 ) {
     Box(Modifier.fillMaxSize()) {
-        NetworkImage(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter),
-            networkUrl = ApiHelper.getPosterPath(actorDetails.profilePath),
-        )
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.35f)
-                .verticalScroll(
-                    state = scrollState
-                )
-                .align(Alignment.BottomCenter)
-                .border(
-                    border = BorderStroke(width = 1.dp, Color.Black),
-                    shape = RoundedCornerShape(12.dp)
-                ),
-            elevation = CardDefaults.elevatedCardElevation(4.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+                .fillMaxSize()
+                .verticalScroll(scrollState)
         ) {
+            NetworkImage(
+                networkUrl = ApiHelper.getPosterPath(actorDetails.profilePath),
+            )
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -73,8 +56,8 @@ fun ActorDetailsContent(
                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                 text = "Also known as:",
                 color = Color.Black,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Normal,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
             )
             LazyRow(
                 modifier = Modifier.padding(4.dp),
@@ -89,6 +72,7 @@ fun ActorDetailsContent(
             }
             Overview(title = "Biography", desc = actorDetails.biography)
         }
+
 
         BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed = onBackPressed)
     }
