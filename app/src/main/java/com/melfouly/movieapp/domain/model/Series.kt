@@ -14,8 +14,8 @@ data class Series(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("vote_average")
-    val voteAverage: Float,
-    val overview: String,
+    val voteAverage: Float?,
+    val overview: String?,
     @SerializedName("first_air_date")
     val firstAirDate: String?,
     @SerializedName("origin_country")

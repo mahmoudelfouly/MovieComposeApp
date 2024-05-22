@@ -9,4 +9,7 @@ object MainScreenRoute
 data class MovieDetailsScreenRoute(val id: Long)
 
 @Serializable
+data class SeriesDetailsScreenRoute(val id: Long)
+
+@Serializable
 data class ActorDetailsScreenRoute(val id: Long)

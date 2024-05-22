@@ -7,6 +7,7 @@ import com.melfouly.movieapp.domain.usecase.GetActorDetailsUseCase
 import com.melfouly.movieapp.domain.usecase.GetActorsUseCase
 import com.melfouly.movieapp.domain.usecase.GetMovieDetailsUseCase
 import com.melfouly.movieapp.domain.usecase.GetMoviesUseCase
+import com.melfouly.movieapp.domain.usecase.GetSeriesDetailsUseCase
 import com.melfouly.movieapp.domain.usecase.GetSeriesUseCase
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
+    /**
+     * Movies Use Cases
+     */
     @Singleton
     @Provides
     fun provideMoviesUseCase(repo: MoviesRepo): GetMoviesUseCase = GetMoviesUseCase(repo)
@@ -27,9 +31,22 @@ object UseCaseModule {
     fun provideMovieDetailsUseCase(repo: MoviesRepo): GetMovieDetailsUseCase =
         GetMovieDetailsUseCase(repo)
 
+    /**
+     * Series Use Cases
+     */
+
     @Singleton
     @Provides
     fun provideSeriesUseCase(repo: SeriesRepo): GetSeriesUseCase = GetSeriesUseCase(repo)
+
+    @Singleton
+    @Provides
+    fun provideSeriesDetailsUseCase(repo: SeriesRepo): GetSeriesDetailsUseCase =
+        GetSeriesDetailsUseCase(repo)
+
+    /**
+     * Actors Use Cases
+     */
 
     @Singleton
     @Provides

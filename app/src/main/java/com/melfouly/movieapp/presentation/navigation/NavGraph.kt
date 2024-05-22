@@ -12,6 +12,7 @@ import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab.MOVIES
 import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab.SERIES
 import com.melfouly.movieapp.presentation.ui.actor.ActorDetailsScreen
 import com.melfouly.movieapp.presentation.ui.movie.MovieDetailsScreen
+import com.melfouly.movieapp.presentation.ui.series.SeriesDetailsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, tabStateHolder: MainTabStateHolder) {
@@ -25,7 +26,7 @@ fun NavGraph(navController: NavHostController, tabStateHolder: MainTabStateHolde
                 onNavigateToDetails = { tab, id ->
                     when (tab) {
                         MOVIES -> navController.navigate(MovieDetailsScreenRoute(id))
-                        SERIES -> null
+                        SERIES -> navController.navigate(SeriesDetailsScreenRoute(id))
                         ACTORS -> navController.navigate(ActorDetailsScreenRoute(id))
                     }
                 }
@@ -35,6 +36,13 @@ fun NavGraph(navController: NavHostController, tabStateHolder: MainTabStateHolde
         composable<MovieDetailsScreenRoute> { backStackEntry ->
             val route: MovieDetailsScreenRoute = backStackEntry.toRoute()
             MovieDetailsScreen(viewModel = hiltViewModel(), route.id) {
+                navController.navigateUp()
+            }
+        }
+
+        composable<SeriesDetailsScreenRoute> { backStackEntry ->
+            val route: SeriesDetailsScreenRoute = backStackEntry.toRoute()
+            SeriesDetailsScreen(viewModel = hiltViewModel(), route.id) {
                 navController.navigateUp()
             }
         }

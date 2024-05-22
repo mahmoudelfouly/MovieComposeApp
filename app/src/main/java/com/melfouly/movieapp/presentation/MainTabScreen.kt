@@ -1,14 +1,9 @@
 package com.melfouly.movieapp.presentation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOut
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -69,6 +64,7 @@ fun MainTabScreen(
 
                 HomeNavigationTab.SERIES -> SeriesScreen(
                     viewModel,
+                    onNavigateToDetails,
                     tabStateHolder.seriesLazyGridState
                 )
 

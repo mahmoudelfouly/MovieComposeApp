@@ -20,13 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.melfouly.movieapp.domain.model.DiscoverSeriesResponse
 import com.melfouly.movieapp.domain.model.NetworkResult
-import com.melfouly.movieapp.presentation.composable.MoviePoster
 import com.melfouly.movieapp.presentation.composable.SeriesPoster
+import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import com.melfouly.movieapp.presentation.viewmodel.MainViewModel
 
 @Composable
 fun SeriesScreen(
     viewModel: MainViewModel,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit,
     lazyGridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -53,7 +54,10 @@ fun SeriesScreen(
                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
             ) {
                 items((seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data.results.size) {
-                    SeriesPoster(series = (seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data.results[it])
+                    SeriesPoster(
+                        series = (seriesResponse as NetworkResult.Success<DiscoverSeriesResponse>).data.results[it],
+                        onNavigateToDetails
+                    )
                 }
             }
         }

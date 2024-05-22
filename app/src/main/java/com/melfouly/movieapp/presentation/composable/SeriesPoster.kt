@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.melfouly.movieapp.data.network.ApiHelper
 import com.melfouly.movieapp.domain.model.Series
+import com.melfouly.movieapp.presentation.navigation.HomeNavigationTab
 import com.skydoves.landscapist.palette.PalettePlugin
 import com.skydoves.landscapist.palette.rememberPaletteState
 import timber.log.Timber
@@ -34,6 +35,7 @@ import timber.log.Timber
 @Composable
 fun SeriesPoster(
     series: Series,
+    onNavigateToDetails: (homeNavigationTab: HomeNavigationTab, id: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var palette by rememberPaletteState(value = null)
@@ -48,7 +50,7 @@ fun SeriesPoster(
                 border = BorderStroke(width = 1.dp, borderColor),
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable { },
+            .clickable { onNavigateToDetails(HomeNavigationTab.SERIES, series.id) },
         color = MaterialTheme.colorScheme.background
     ) {
         ConstraintLayout {
