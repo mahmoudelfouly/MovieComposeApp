@@ -33,7 +33,10 @@ class SeriesRepoImpl(private val apiService: ApiService) : SeriesRepo {
                     async(Dispatchers.IO) { apiService.getSeriesDetails(id).body()!! }.await()
                 val keywordResponse =
                     async(Dispatchers.IO) { apiService.getSeriesKeywords(id).body()!! }.await()
+                val videosResponse =
+                    async(Dispatchers.IO) { apiService.getSeriesVideos(id).body()!! }.await()
                 detailsResponse.keywords = keywordResponse.keywords
+                detailsResponse.videos = videosResponse.results
                 NetworkResult.Success(detailsResponse)
             }
         } catch (e: HttpException) {

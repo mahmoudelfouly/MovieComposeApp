@@ -72,55 +72,55 @@ fun MovieDetailsContent(
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
                 )
-
-                movieDetails.voteAverage?.let { avgRate ->
-                    RateBar(
-                        rate = avgRate,
-                        modifier = modifier.align(Alignment.CenterHorizontally)
-                    )
-                }
-
-                if (!movieDetails.videos.isNullOrEmpty()) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        text = "Trailers:",
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-
-                    LazyRow(
-                        modifier = Modifier.padding(
-                            top = 2.dp,
-                            bottom = 12.dp,
-                            start = 8.dp,
-                            end = 8.dp
-                        ),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        contentPadding = PaddingValues(4.dp)
-                    ) {
-                        items(movieDetails.videos!!.size) { index ->
-                            VideoPoster(video = movieDetails.videos!![index])
-                        }
-                    }
-                }
-
-                movieDetails.keywords?.let { list ->
-                    FlowRow(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
-                    ) {
-                        list.forEach { keyword ->
-                            KeywordCard(name = keyword.name)
-                        }
-                    }
-                }
-
-                movieDetails.overview?.let {
-                    Overview(title = "Overview", desc = it)
-                }
-
-
             }
+
+            movieDetails.voteAverage?.let { avgRate ->
+                RateBar(
+                    rate = avgRate,
+                    modifier = modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+
+            if (!movieDetails.videos.isNullOrEmpty()) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    text = "Trailers:",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+
+                LazyRow(
+                    modifier = Modifier.padding(
+                        top = 2.dp,
+                        bottom = 12.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    ),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
+                    items(movieDetails.videos!!.size) { index ->
+                        VideoPoster(video = movieDetails.videos!![index])
+                    }
+                }
+            }
+
+            movieDetails.keywords?.let { list ->
+                FlowRow(
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 32.dp)
+                ) {
+                    list.forEach { keyword ->
+                        KeywordCard(name = keyword.name)
+                    }
+                }
+            }
+
+            if (!movieDetails.overview.isNullOrBlank()) {
+                Overview(title = "Overview", desc = movieDetails.overview)
+            }
+
+
         }
 
         BackButton(modifier = Modifier.align(Alignment.TopStart), onBackPressed)
