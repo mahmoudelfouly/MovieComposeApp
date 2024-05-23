@@ -1,13 +1,16 @@
 package com.melfouly.movieapp.presentation.ui.movie
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,6 +29,7 @@ import com.melfouly.movieapp.presentation.composable.KeywordCard
 import com.melfouly.movieapp.presentation.composable.NetworkImage
 import com.melfouly.movieapp.presentation.composable.Overview
 import com.melfouly.movieapp.presentation.composable.RateBar
+import com.melfouly.movieapp.presentation.composable.VideoPoster
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -74,6 +78,31 @@ fun MovieDetailsContent(
                         rate = avgRate,
                         modifier = modifier.align(Alignment.CenterHorizontally)
                     )
+                }
+
+                if (!movieDetails.videos.isNullOrEmpty()) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        text = "Trailers:",
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+
+                    LazyRow(
+                        modifier = Modifier.padding(
+                            top = 2.dp,
+                            bottom = 12.dp,
+                            start = 8.dp,
+                            end = 8.dp
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        contentPadding = PaddingValues(4.dp)
+                    ) {
+                        items(movieDetails.videos!!.size) { index ->
+                            VideoPoster(video = movieDetails.videos!![index])
+                        }
+                    }
                 }
 
                 movieDetails.keywords?.let { list ->

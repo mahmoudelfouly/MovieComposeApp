@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class Movie(
     var page: Int,
     var keywords: List<Keyword>? = ArrayList(),
-    var videos: List<Video>? = ArrayList(),
+    var videos: List<Video>?,
     var reviews: List<Review>? = ArrayList(),
     @SerializedName("poster_path")
     val posterPath: String?,

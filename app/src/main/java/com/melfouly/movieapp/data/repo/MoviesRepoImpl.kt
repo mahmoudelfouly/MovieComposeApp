@@ -32,9 +32,13 @@ class MoviesRepoImpl(private val apiService: ApiService) : MoviesRepo {
             coroutineScope {
                 val detailsResponse =
                     async(Dispatchers.IO) { apiService.getMovieDetails(id).body()!! }.await()
-                val keywordResponse =
+                val keywordsResponse =
                     async(Dispatchers.IO) { apiService.getMovieKeywords(id).body()!! }.await()
-                detailsResponse.keywords = keywordResponse.keywords
+                val videosResponse =
+                    async(Dispatchers.IO) { apiService.getMovieVideos(id).body()!! }.await()
+
+                detailsResponse.keywords = keywordsResponse.keywords
+                detailsResponse.videos = videosResponse.results
                 NetworkResult.Success(detailsResponse)
             }
         } catch (e: HttpException) {
